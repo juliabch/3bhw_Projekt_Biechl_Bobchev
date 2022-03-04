@@ -1,4 +1,4 @@
-import java.util.HashMap;
+package PACKAGE_NAME;
 
 public class Login {
     public static void main(String[] args) {
