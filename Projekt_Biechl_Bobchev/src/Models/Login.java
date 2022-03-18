@@ -1,9 +1,9 @@
-package PACKAGE_NAME;
+package Models;
 
 public class Login {
     public static void main(String[] args) {
 
-        HashMap<String, String> login = loginInSystem();
+
 
 
 

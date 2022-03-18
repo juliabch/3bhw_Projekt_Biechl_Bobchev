@@ -2,23 +2,23 @@ package Models;
 
 public class Subject {
 
-    private int subject_id;
-    private String subject;
+    private int _subjectId;
+    private String _subject;
 
     public int getSubjectId() {
-        return subject_id;
+        return _subjectId;
     }
 
     public void setSubjectId(int subject_id) {
-        this.subject_id = subject_id;
+        this._subjectId = subject_id;
     }
 
     public String getSubject() {
-        return subject;
+        return _subject;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setSubject(String _subject) {
+        this._subject = _subject;
     }
 
     public Subject(){
