@@ -29,4 +29,9 @@ public class Subject {
         this.setSubjectId(id);
         this.setSubject(subject);
     }
+
+    @Override
+    public String toString(){
+        return this._subject;
+    }
 }

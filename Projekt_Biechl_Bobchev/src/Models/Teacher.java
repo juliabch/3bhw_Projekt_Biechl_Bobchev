@@ -6,21 +6,21 @@ import java.util.*;
 public class Teacher extends Person{
 
 
-    private boolean _isFormTeacher;
+    private String _isFormTeacher;
     private List<Subject> _subjects = new ArrayList<>();
 
-    public boolean getIsFormTeacher() {
+    public String getIsFormTeacher() {
         return _isFormTeacher;
     }
 
-    public void setIsFormTeacher(boolean formTeacher) {
+    public void setIsFormTeacher(String formTeacher) {
         _isFormTeacher = formTeacher;
     }
     public Teacher(){
-        this(0, " ", " ", LocalDate.MIN, " ", Gender.notSpecified, false);
+        this(0, " ", " ", LocalDate.MIN, " ", Gender.notSpecified, " ");
     }
 
-    public Teacher(int id, String fn, String ln, LocalDate bd, String mA, Gender gr, Boolean ft){
+    public Teacher(int id, String fn, String ln, LocalDate bd, String mA, Gender gr, String ft){
         super(id, fn, ln, bd, mA, gr);
         this.setIsFormTeacher(ft);
 
@@ -43,7 +43,7 @@ public class Teacher extends Person{
 
     @Override
     public String toString(){
-        return super.toString() + " " + this._isFormTeacher + " " + this._subjects;
+        return super.toString() + "\nKlassenvorstand: " + this._isFormTeacher + " Fächer:" + this._subjects;
     }
 
 

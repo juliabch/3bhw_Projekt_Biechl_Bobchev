@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class School_Management_Main {
     public static void main(String[] args) {
 
-        Teacher t = new Teacher(1, "Julia", "Biechl", LocalDate.of(2005,9,1), "biechl.julia@gmail.com", Gender.female, true  );
+        Teacher t = new Teacher(1, "Julia", "Biechl", LocalDate.of(2005,9,1), "biechl.julia@gmail.com", Gender.female, "3bhwii"  );
 
         Subject s1 = new Subject(1, "Mathematik");
         Subject s2 = new Subject(2, "Deutsch");
@@ -19,6 +19,10 @@ public class School_Management_Main {
         t.addSubject(s3);
 
         System.out.println(t);
+
+        Student s = new Student(1, "Eva", "Bobchev", LocalDate.of(2005,06,04), "bobchev.eva@gmail.com", Gender.female, "3bhwii", "S101");
+
+        System.out.println(s);
 
 
     }
