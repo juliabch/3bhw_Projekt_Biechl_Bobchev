@@ -14,3 +14,16 @@ create table teacher(
      
 constraint teacherId_PK primary key(teacherId)
 );
+
+create table student(
+	studentId int unsigned not null auto_increment,
+    l_name varchar (100) not null,
+	f_name varchar (100) not null,
+    bdate Date not null,
+    gender int not null,
+    mailAddress varchar (100) not null,
+    classRoom varchar (10) not null,
+    class varchar (20) not null,
+     
+constraint studentId_PK primary key(studentId)
+);
