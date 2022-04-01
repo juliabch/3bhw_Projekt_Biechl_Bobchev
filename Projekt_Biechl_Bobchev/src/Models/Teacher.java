@@ -43,7 +43,7 @@ public class Teacher extends Person{
 
     @Override
     public String toString(){
-        return super.toString() + "\nKlassenvorstand: " + this._isFormTeacher + " Fächer:" + this._subjects;
+        return super.toString() + "\n Klassenvorstand: " + this._isFormTeacher + " Fächer:" + this._subjects;
     }
 
 
