@@ -10,7 +10,6 @@ create table teacher(
     gender int not null,
     mailAddress varchar (100) not null,
     formTeacher varchar (20) not null,
-    subjects varchar (50) not null,
      
 constraint teacherId_PK primary key(teacherId)
 );
@@ -27,3 +26,18 @@ create table student(
      
 constraint studentId_PK primary key(studentId)
 );
+
+create table subjects(
+	subjectId int unsigned not null auto_increment,
+    subject_name varchar (100) not null,
+     
+constraint subjectId_PK primary key(subjectId)
+);
+
+
+select * from subjects;
+select * from student;
+select * from teacher;
+
+alter table teacher add subjectID int not null;
+alter table teacher add constraint subjectID_FK foreign key (subjectID) references subjects(subjectId);

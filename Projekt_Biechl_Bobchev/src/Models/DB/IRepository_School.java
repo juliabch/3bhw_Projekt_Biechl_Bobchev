@@ -10,12 +10,12 @@ public interface IRepository_School {
 
     void close() throws SQLException;
 
-    boolean createTeacher() throws SQLException;
+    boolean createTeacher(Teacher teacher) throws SQLException;
 
-    boolean createStudent() throws SQLException;
+    boolean createStudent(Student student) throws SQLException;
 
-    boolean createSubject() throws SQLException;
+    boolean createSubject(Subject subject) throws SQLException;
 
-    boolean insertSubject() throws SQLException;
+    boolean addSubject(Subject subject) throws SQLException;
 
 }
