@@ -2,6 +2,8 @@ package Models.DB;
 import Models.*;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Repository_School implements IRepository_School{
@@ -73,8 +75,51 @@ public class Repository_School implements IRepository_School{
     }
 
     @Override
-    public boolean addSubject(Subject subject) throws SQLException {
+    public boolean addSubjectToTeacherWhereID(Subject subject, int teacher) throws SQLException {
         return false;
     }
 
+    @Override
+    public List<Teacher> getAllTeachers() throws SQLException {
+        List<Teacher> foundTeacher = new ArrayList<Teacher>();
+        PreparedStatement pStmt = this._connection.prepareStatement("select teacherId, l_name, f_name, bdate, gender, formTeacher, subject_name from teacher\n" +
+                "join teacher_subjects on teacher_Id\n" +
+                "join subjects on subject_id;");
+
+        ResultSet result = pStmt.executeQuery();
+
+        Teacher t;
+        Subject s;
+        while (result.next()){
+            t = new Teacher();
+            s = new Subject();
+            t.setId(result.getInt("teacherId"));
+            t.setLastname(result.getString("l_name"));
+            t.setFirstname(result.getString("f_name"));
+            t.setBirthdate(result.getDate("bdate").toLocalDate());
+            t.setGender(intToGender(result.getInt("gender")));
+            t.setIsFormTeacher(result.getString("formTeacher"));
+            s.setSubject(result.getString("subject_name"));
+
+            foundTeacher.add(t);
+        }
+
+        if (foundTeacher.size() >= 1){
+            return foundTeacher;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public Gender intToGender(int gender){
+        switch (gender) {
+            case 1:
+                return Gender.male;
+            case 2:
+                return Gender.female;
+            default:
+                return Gender.notSpecified;
+        }
+    }
 }

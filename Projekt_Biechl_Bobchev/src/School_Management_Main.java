@@ -30,22 +30,22 @@ public class School_Management_Main {
         userAccount();
 */
         IRepository_School rep = null;
-        Student s = new Student(1, "Eva", "Bobchev", LocalDate.of(2005,06,04), "bobchev.eva@gmail.com", Gender.female, "3bhwii", "S101");
+        /*Student s = new Student(1, "Eva", "Bobchev", LocalDate.of(2005,06,04), "bobchev.eva@gmail.com", Gender.female, "3bhwii", "S101");
         Teacher t = new Teacher(1, "Julia", "Biechl", LocalDate.of(2005,9,1), "biechl.julia@gmail.com", Gender.female, "3bhwii"  );
         Subject s1 = new Subject(1, "Mathematik");
         Subject s2 = new Subject(2, "Deutsch");
         Subject s3 = new Subject(3, "Englisch");
         Subject s4 = new Subject(4, "Softwareprogrammierung");
         Subject s5 = new Subject(5, "Geschichte");
-        Subject s6 = new Subject(6, "Informatik");
+        Subject s6 = new Subject(6, "Informatik");*/
 
         try{
             rep = new Repository_School();
             rep.open();
+            //Teacher t = new Teacher(1, "Julia", "Biechl", LocalDate.of(2005,9,1), "biechl.julia@gmail.com", Gender.female, "3bhwii"  );
 
+            //rep.createTeacher(t);
             /*already created in db
-            rep.createTeacher(t);
-
             rep.createStudent(s);
 
             rep.createSubject(s1);
@@ -54,6 +54,11 @@ public class School_Management_Main {
             rep.createSubject(s4);
             rep.createSubject(s5);
             rep.createSubject(s6);*/
+
+            for (Teacher t : rep.getAllTeachers()){
+                System.out.println(t);
+            }
+
 
 
         }
