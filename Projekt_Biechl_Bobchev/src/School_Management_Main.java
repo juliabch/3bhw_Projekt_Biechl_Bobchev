@@ -43,16 +43,17 @@ public class School_Management_Main {
             rep = new Repository_School();
             rep.open();
 
-            /*rep.createSubject(s1);
+            /*already created in db
+            rep.createTeacher(t);
+
+            rep.createStudent(s);
+
+            rep.createSubject(s1);
             rep.createSubject(s2);
             rep.createSubject(s3);
             rep.createSubject(s4);
             rep.createSubject(s5);
             rep.createSubject(s6);*/
-
-            rep.createTeacher(t);
-
-            rep.createStudent(s);
 
 
         }
