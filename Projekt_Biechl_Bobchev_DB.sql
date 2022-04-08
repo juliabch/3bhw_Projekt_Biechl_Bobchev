@@ -34,10 +34,19 @@ create table subjects(
 constraint subjectId_PK primary key(subjectId)
 );
 
+create table teacher_subjects(
+teacher_subject_id int unsigned not null auto_increment,
+subject_Id int unsigned null,
+teacher_Id int unsigned null,
+
+constraint teacher_subject_id primary key(teacher_subject_id),
+constraint subject_Id_Fk foreign key(subject_Id) references subjects(subjectId),
+constraint teacherId_FK foreign key(teacher_Id) references teacher(teacherId)
+);
+
 
 select * from subjects;
 select * from student;
 select * from teacher;
 
-alter table teacher add subjectID int not null;
-alter table teacher add constraint subjectID_FK foreign key (subjectID) references subjects(subjectId);
+drop table teacher_subjects;
