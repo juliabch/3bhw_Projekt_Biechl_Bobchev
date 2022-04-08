@@ -1,13 +1,31 @@
 package Models;
 
-import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Login {
+    private HashMap<String,String> hashmapUser = new HashMap<>();
+    private String _username;
+    private String _password;
+    public String getusername(){ return this._username; }
+    public void setusername(String username){
+        this._username = username;
+    }
+    public String getpassword(){ return this._password; }
+    public void setpassword(String password){
+        this._password = password;
+    }
+    public Login() {
+        this("", "");
+    }
+    public Login(String username, String password){
+        this.setusername(username);
+        this.setpassword(password);
+    }
+
+
     Scanner s = new Scanner(System.in);
     String filename = "C://Daten//SWP-Projekt//Register.txt";
 
@@ -15,9 +33,9 @@ public class Login {
         try {
             Path p = Path.of(filename);
 
-            System.out.println("Enter Username");
+            System.out.print("Enter Username:");
             String username = s.nextLine();
-            System.out.println("Enter Password");
+            System.out.print("Enter Password:");
             String password = s.nextLine();
             Files.writeString(p, username + ";" + password + "\n", StandardOpenOption.APPEND);
             System.out.println("Account has been saved");
@@ -27,24 +45,42 @@ public class Login {
         }
     }
 
-    public void loginAccount() {
+    public boolean loginAccount() {
         try {
             Path p = Path.of(filename);
-            // 1) Datei lesen und In Liste abspeichern
-            Files.readAllLines(p);
-            System.out.println();
-            // 2) Splitten
-            // 3) User/password eingeben
-            // 4) Schauen ob sie zusammen passen
-
-
-
+            // 1) Datei mit userdaten lesen und In einer Hashmap abspeichern
+            System.out.print("Enter Username:");
+            String username = s.nextLine();
+            System.out.print("Enter Password:");
+            String password = s.nextLine();
+             convertStringListTologinHashmap(Files.readAllLines(p));
+            userAndPasswordOk(username,password);
         } catch (Exception ex) {
             System.out.println("This User/Password does not exist");
+        }
+        return false;
+    }
+
+    public void convertStringListTologinHashmap(List<String> list) {
+
+        // 2) Splitten
+        String[] data = new String[2];
+        for (String s : list) {
+            data = s.split(";");
+
+            hashmapUser.put(data[0],data[1]);
 
         }
     }
-    public void convertpersonTologin(List<String> lines){
+    private void userAndPasswordOk(String username, String password) {
+        for (Map.Entry<String, String> entry : hashmapUser.entrySet()) {
+            if (entry.getKey().toLowerCase().equals(username.toLowerCase()) && entry.getValue().equals(password)) {
+                System.out.println("You have logged in");
+            }
+
+        }
+    }
 
     }
-}
+
+

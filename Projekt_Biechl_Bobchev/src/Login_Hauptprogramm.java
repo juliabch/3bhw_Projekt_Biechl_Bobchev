@@ -1,5 +1,6 @@
 import Models.*;
 
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Login_Hauptprogramm {
@@ -12,8 +13,10 @@ public class Login_Hauptprogramm {
     public  static void userAccount() {
         Login newAccount =new Login();
         try {
+            System.out.println("________________________");
             System.out.println("1) Create User-Account");
             System.out.println("2) Login User-Account");
+            System.out.println("________________________");
             System.out.println("Enter choice:");
             String choice = s.nextLine();
             if (choice.equals("1")) {
