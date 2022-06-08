@@ -48,5 +48,4 @@ constraint teacherId_FK foreign key(teacher_Id) references teacher(teacherId)
 select * from subjects;
 select * from student;
 select * from teacher;
-
-drop table teacher_subjects;
+select * from teacher_subjects;
