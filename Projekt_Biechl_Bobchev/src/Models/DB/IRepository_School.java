@@ -18,4 +18,13 @@ public interface IRepository_School {
 
     boolean addSubject(Subject subject) throws SQLException;
 
+    List<Student> getStudentbyfirstname(String firstname) throws SQLException;
+
+    List<Student> getStudentbyclassroom(String classroom) throws SQLException;
+
+    List<Student> getStudentbylastname(String lastname) throws SQLException;
+
+
+
+
 }

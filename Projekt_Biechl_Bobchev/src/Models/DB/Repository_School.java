@@ -2,6 +2,8 @@ package Models.DB;
 import Models.*;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Repository_School implements IRepository_School{
@@ -75,6 +77,113 @@ public class Repository_School implements IRepository_School{
     @Override
     public boolean addSubject(Subject subject) throws SQLException {
         return false;
+    }
+
+    @Override
+    public List<Student> getStudentbyfirstname(String firstname) throws SQLException {
+        List<Student> foundStudent = new ArrayList<>();
+        PreparedStatement pStmt = this._connection.prepareStatement("select * from student where firstname LIKE firstname = ?");
+
+        pStmt.setString(1, firstname);
+
+        ResultSet result = pStmt.executeQuery();
+
+        Student s = new Student();
+
+        while (result.next()) {
+            s = new Student();
+            s.setFirstname(result.getString("firstname"));
+            s.setLastname(result.getString("lastname"));
+            s.setBirthdate(result.getDate("birthdate").toLocalDate());
+            s.setGender(convertIntToGender(result.getInt("gender")));
+            s.setClassroom(result.getString("classroom"));
+            s.setStudentClass(result.getString("studentclass"));
+            s.setMailaddress(result.getString("mail_Address"));
+
+            foundStudent.add(s);
+        }
+        if (foundStudent.size() >= 1) {
+            return foundStudent;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public List<Student> getStudentbyclassroom(String classroom) throws SQLException {
+            List<Student> foundStudent = new ArrayList<>();
+            PreparedStatement pStmt = this._connection.prepareStatement("select * from student where classroom LIKE classroom = ?");
+
+            pStmt.setString(1, classroom);
+
+            ResultSet result = pStmt.executeQuery();
+
+            Student s = new Student();
+
+            while (result.next()){
+                s = new Student();
+                s.setFirstname(result.getString("firstname"));
+                s.setLastname(result.getString("lastname"));
+                s.setBirthdate(result.getDate("birthdate").toLocalDate());
+                s.setGender(convertIntToGender(result.getInt("gender")));
+                s.setClassroom(result.getString("classroom"));
+                s.setStudentClass(result.getString("studentclass"));
+                s.setMailaddress(result.getString("mail_Address"));
+
+                foundStudent.add(s);
+            }
+            if (foundStudent.size() >= 1){
+                return foundStudent;
+            }
+            else{
+                return null;
+            }
+
+    }
+
+    @Override
+    public List<Student> getStudentbylastname(String lastname) throws SQLException {
+        List<Student> foundStudent = new ArrayList<>();
+        PreparedStatement pStmt = this._connection.prepareStatement("select * from student where lastname LIKE lastname = ?");
+
+        pStmt.setString(1, lastname);
+
+        ResultSet result = pStmt.executeQuery();
+
+        Student s = new Student();
+
+        while (result.next()) {
+            s = new Student();
+            s.setFirstname(result.getString("firstname"));
+            s.setLastname(result.getString("lastname"));
+            s.setBirthdate(result.getDate("birthdate").toLocalDate());
+            s.setGender(convertIntToGender(result.getInt("gender")));
+            s.setClassroom(result.getString("classroom"));
+            s.setStudentClass(result.getString("studentclass"));
+            s.setMailaddress(result.getString("mail_Address"));
+
+            foundStudent.add(s);
+        }
+        if (foundStudent.size() >= 1) {
+            return foundStudent;
+        } else {
+            return null;
+        }
+    }
+
+
+
+
+    private Gender convertIntToGender(int valueFromDB){
+        if(valueFromDB == 0){
+            return Gender.male;
+        }
+        else if(valueFromDB == 1 ){
+            return Gender.female;
+        }
+        else{
+            return Gender.notSpecified;
+        }
     }
 
 }

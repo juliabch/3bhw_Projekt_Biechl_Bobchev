@@ -4,10 +4,14 @@ import Models.DB.*;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Scanner;
+import java.util.HashMap;
 
 public class School_Management_Main {
     static Scanner reader = new Scanner(System.in);
+    static Scanner s = new Scanner(System.in);
     public static void main(String[] args) throws SQLException {
+
+        userAccount();
 
         /*Teacher t = new Teacher(1, "Julia", "Biechl", LocalDate.of(2005,9,1), "biechl.julia@gmail.com", Gender.female, "3bhwii"  );
 
@@ -89,11 +93,11 @@ public class School_Management_Main {
             } else {
                 System.out.println("This option is not available right now!");
             }
+
         } catch (Exception ex) {
         }
 
     }
 
+    }
 
-
-}
