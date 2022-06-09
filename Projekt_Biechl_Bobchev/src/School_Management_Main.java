@@ -82,7 +82,7 @@ public class School_Management_Main {
     }
 
     public static void userAccount() {
-        Login newAccount =new Login();
+        School_Management_Main newAccount = new School_Management_Main();
         try {
             System.out.println("________________________");
             System.out.println("1) Create User-Account");
