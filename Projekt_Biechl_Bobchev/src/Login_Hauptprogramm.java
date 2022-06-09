@@ -10,7 +10,7 @@ public class Login_Hauptprogramm {
         userAccount();
 
     }
-    public  static void userAccount() {
+    public static void userAccount() {
         Login newAccount =new Login();
         try {
             System.out.println("________________________");

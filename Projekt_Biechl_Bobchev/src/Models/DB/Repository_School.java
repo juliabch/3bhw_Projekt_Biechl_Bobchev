@@ -2,8 +2,8 @@ package Models.DB;
 import Models.*;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Date;
+import java.util.*;
 
 
 public class Repository_School implements IRepository_School{
@@ -12,6 +12,7 @@ public class Repository_School implements IRepository_School{
     private String user = "root";
     private String pwd = "3p93EuV*";
 
+    Scanner reader = new Scanner(System.in);
 
     private Connection _connection;
 
@@ -95,18 +96,17 @@ public class Repository_School implements IRepository_School{
     }
 
     @Override
-    public boolean addSubjectToTeacherWhereID(Subject subject, Teacher teacher) throws SQLException {
-
+    public boolean addSubjectToTeacherWhereID(int subject, int teacher) throws SQLException {
         PreparedStatement pStmt =this._connection.prepareStatement("insert into teacher_subjects values(null, ?, ?);");
 
-        pStmt.setInt(1, subject.getSubjectId());
-        pStmt.setInt(2, teacher.getId());
+        pStmt.setInt(1, subject);
+        pStmt.setInt(2, teacher);
 
         return pStmt.executeUpdate() == 1;
     }
 
+
     @Override
-<<<<<<< HEAD
     public List<Student> getStudentbyfirstname(String firstname) throws SQLException {
         List<Student> foundStudent = new ArrayList<>();
         PreparedStatement pStmt = this._connection.prepareStatement("select * from student where firstname LIKE firstname = ?");
@@ -132,183 +132,161 @@ public class Repository_School implements IRepository_School{
         if (foundStudent.size() >= 1) {
             return foundStudent;
         } else {
-=======
-    public List<Teacher> getAllTeachers() throws SQLException {
-        List<Teacher> foundTeacher = new ArrayList<Teacher>();
-        PreparedStatement pStmt = this._connection.prepareStatement("select * from teacher;");
-
-        ResultSet result = pStmt.executeQuery();
-
-        Teacher t;
-        while (result.next()){
-            t = new Teacher();
-            t.setId(result.getInt("teacherId"));
-            t.setLastname(result.getString("l_name"));
-            t.setFirstname(result.getString("f_name"));
-            t.setBirthdate(result.getDate("bdate").toLocalDate());
-            t.setGender(intToGender(result.getInt("gender")));
-            t.setIsFormTeacher(result.getString("formTeacher"));
-
-            foundTeacher.add(t);
-        }
-
-        if (foundTeacher.size() >= 1){
-            return foundTeacher;
-        }
-        else {
->>>>>>> 947c28bab83aa928d53e1471277110bf9cf4e97c
             return null;
         }
     }
+    public List<Teacher> getAllTeachers () throws SQLException {
+                List<Teacher> foundTeacher = new ArrayList<Teacher>();
+                PreparedStatement pStmt = this._connection.prepareStatement("select * from teacher;");
 
-<<<<<<< HEAD
-    @Override
-    public List<Student> getStudentbyclassroom(String classroom) throws SQLException {
-            List<Student> foundStudent = new ArrayList<>();
-            PreparedStatement pStmt = this._connection.prepareStatement("select * from student where classroom LIKE classroom = ?");
+                ResultSet result = pStmt.executeQuery();
 
-            pStmt.setString(1, classroom);
+                Teacher t;
+                while (result.next()) {
+                    t = new Teacher();
+                    t.setId(result.getInt("teacherId"));
+                    t.setLastname(result.getString("l_name"));
+                    t.setFirstname(result.getString("f_name"));
+                    t.setBirthdate(result.getDate("bdate").toLocalDate());
+                    t.setGender(convertIntToGender(result.getInt("gender")));
+                    t.setIsFormTeacher(result.getString("formTeacher"));
 
-            ResultSet result = pStmt.executeQuery();
+                    foundTeacher.add(t);
+                }
 
-            Student s = new Student();
-
-            while (result.next()){
-                s = new Student();
-                s.setFirstname(result.getString("firstname"));
-                s.setLastname(result.getString("lastname"));
-                s.setBirthdate(result.getDate("birthdate").toLocalDate());
-                s.setGender(convertIntToGender(result.getInt("gender")));
-                s.setClassroom(result.getString("classroom"));
-                s.setStudentClass(result.getString("studentclass"));
-                s.setMailaddress(result.getString("mail_Address"));
-
-                foundStudent.add(s);
-            }
-            if (foundStudent.size() >= 1){
-                return foundStudent;
-            }
-            else{
-                return null;
+                if (foundTeacher.size() >= 1) {
+                    return foundTeacher;
+                } else {
+                    return null;
+                }
             }
 
-    }
+            @Override
+            public List<Student> getStudentbyclassroom (String classroom) throws SQLException {
+                List<Student> foundStudent = new ArrayList<>();
+                PreparedStatement pStmt = this._connection.prepareStatement("select * from student where classroom LIKE classroom = ?");
 
-    @Override
-    public List<Student> getStudentbylastname(String lastname) throws SQLException {
-        List<Student> foundStudent = new ArrayList<>();
-        PreparedStatement pStmt = this._connection.prepareStatement("select * from student where lastname LIKE lastname = ?");
+                pStmt.setString(1, classroom);
 
-        pStmt.setString(1, lastname);
+                ResultSet result = pStmt.executeQuery();
 
-        ResultSet result = pStmt.executeQuery();
+                Student s = new Student();
 
-        Student s = new Student();
+                while (result.next()) {
+                    s = new Student();
+                    s.setFirstname(result.getString("firstname"));
+                    s.setLastname(result.getString("lastname"));
+                    s.setBirthdate(result.getDate("birthdate").toLocalDate());
+                    s.setGender(convertIntToGender(result.getInt("gender")));
+                    s.setClassroom(result.getString("classroom"));
+                    s.setStudentClass(result.getString("studentclass"));
+                    s.setMailaddress(result.getString("mail_Address"));
 
-        while (result.next()) {
-            s = new Student();
-            s.setFirstname(result.getString("firstname"));
-            s.setLastname(result.getString("lastname"));
-            s.setBirthdate(result.getDate("birthdate").toLocalDate());
-            s.setGender(convertIntToGender(result.getInt("gender")));
-            s.setClassroom(result.getString("classroom"));
-            s.setStudentClass(result.getString("studentclass"));
-            s.setMailaddress(result.getString("mail_Address"));
+                    foundStudent.add(s);
+                }
+                if (foundStudent.size() >= 1) {
+                    return foundStudent;
+                } else {
+                    return null;
+                }
 
-            foundStudent.add(s);
-        }
-        if (foundStudent.size() >= 1) {
-            return foundStudent;
-        } else {
-            return null;
-        }
-    }
+            }
 
-    @Override
-    public List<Subject> getAllSubjects() throws SQLException {
-        List<Subject> foundSubject = new ArrayList<Subject>();
-        PreparedStatement pStmt = this._connection.prepareStatement("select * from subjects;");
+            @Override
+            public List<Student> getStudentbylastname (String lastname) throws SQLException {
+                List<Student> foundStudent = new ArrayList<>();
+                PreparedStatement pStmt = this._connection.prepareStatement("select * from student where lastname LIKE lastname = ?");
 
-        ResultSet result = pStmt.executeQuery();
+                pStmt.setString(1, lastname);
 
-        Subject s;
-        while (result.next()){
-            s = new Subject();
-            s.setSubjectId(result.getInt("subjectId"));
-            s.setSubject(result.getString("subject_name"));
+                ResultSet result = pStmt.executeQuery();
 
-            foundSubject.add(s);
-        }
+                Student s = new Student();
 
-        if (foundSubject.size() >= 1){
-            return foundSubject;
-        }
-        else {
-            return null;
-        }
-    }
+                while (result.next()) {
+                    s = new Student();
+                    s.setFirstname(result.getString("firstname"));
+                    s.setLastname(result.getString("lastname"));
+                    s.setBirthdate(result.getDate("birthdate").toLocalDate());
+                    s.setGender(convertIntToGender(result.getInt("gender")));
+                    s.setClassroom(result.getString("classroom"));
+                    s.setStudentClass(result.getString("studentclass"));
+                    s.setMailaddress(result.getString("mail_Address"));
 
-    @Override
-    public boolean getTeacherId(Teacher teacher1) throws SQLException {
-        PreparedStatement pStmt =this._connection.prepareStatement("select teacherId from teacher where l_name like ? " +
-                "and f_name like ? and mailAddress like ?;");
-        pStmt.setString(1, teacher1.getLastname());
-        pStmt.setString(2, teacher1.getFirstname());
-        pStmt.setString(3, teacher1.getMailAddress());
+                    foundStudent.add(s);
+                }
+                if (foundStudent.size() >= 1) {
+                    return foundStudent;
+                } else {
+                    return null;
+                }
+            }
 
-        ResultSet result = pStmt.executeQuery();
+            @Override
+            public List<Subject> getAllSubjects () throws SQLException {
+                List<Subject> foundSubject = new ArrayList<Subject>();
+                PreparedStatement pStmt = this._connection.prepareStatement("select * from subjects;");
 
-        if (result.next()) {
-            teacher1.setId(result.getInt("teacherId"));
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
+                ResultSet result = pStmt.executeQuery();
 
-    @Override
-    public boolean getSubjectId(Subject subject) throws SQLException {
-        PreparedStatement pStmt =this._connection.prepareStatement("select subjectId from subjects where subject_name like ?");
-        pStmt.setString(1, subject.getSubject());
+                Subject s;
+                while (result.next()) {
+                    s = new Subject();
+                    s.setSubjectId(result.getInt("subjectId"));
+                    s.setSubject(result.getString("subject_name"));
 
-        ResultSet result = pStmt.executeQuery();
+                    foundSubject.add(s);
+                }
 
-        if (result.next()) {
-            subject.setSubjectId(result.getInt("subjectId"));
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
+                if (foundSubject.size() >= 1) {
+                    return foundSubject;
+                } else {
+                    return null;
+                }
+            }
+
+            @Override
+            public boolean getTeacherId (Teacher teacher1) throws SQLException {
+                PreparedStatement pStmt = this._connection.prepareStatement("select teacherId from teacher where l_name like ? " +
+                        "and f_name like ? and mailAddress like ?;");
+                pStmt.setString(1, teacher1.getLastname());
+                pStmt.setString(2, teacher1.getFirstname());
+                pStmt.setString(3, teacher1.getMailAddress());
+
+                ResultSet result = pStmt.executeQuery();
+
+                if (result.next()) {
+                    teacher1.setId(result.getInt("teacherId"));
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            @Override
+            public boolean getSubjectId (Subject subject) throws SQLException {
+                PreparedStatement pStmt = this._connection.prepareStatement("select subjectId from subjects where subject_name like ?");
+                pStmt.setString(1, subject.getSubject());
+
+                ResultSet result = pStmt.executeQuery();
+
+                if (result.next()) {
+                    subject.setSubjectId(result.getInt("subjectId"));
+                    return true;
+                } else {
+                    return false;
+                }
+            }
 
 
-
-
-    private Gender convertIntToGender(int valueFromDB){
-        if(valueFromDB == 0){
-            return Gender.male;
-        }
-        else if(valueFromDB == 1 ){
-            return Gender.female;
-        }
-        else{
-            return Gender.notSpecified;
-        }
-    }
-
-=======
-    public Gender intToGender(int gender){
-        switch (gender) {
-            case 1:
-                return Gender.male;
-            case 2:
-                return Gender.female;
-            default:
-                return Gender.notSpecified;
-        }
-    }
-
+            private Gender convertIntToGender( int valueFromDB){
+                if (valueFromDB == 0) {
+                    return Gender.male;
+                } else if (valueFromDB == 1) {
+                    return Gender.female;
+                } else {
+                    return Gender.notSpecified;
+                }
+            }
 
 }

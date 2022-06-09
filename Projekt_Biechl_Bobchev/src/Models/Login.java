@@ -21,7 +21,10 @@ public class Login {
 
     //Für Filemanagment
     Scanner s = new Scanner(System.in);
-    String filename = "C://Daten//SWP-Projekt//Register.txt";
+
+    //Eva: String filename = "C://Daten//SWP-Projekt//Register.txt";
+    //Julia:
+    String filename = "C://Users//biech//Desktop//3bhwii_Java//3bhw_Projekt_Biechl_Bobchev//User.txt";
 
 
     private HashMap<String,String> hashmapUser = new HashMap<>();
@@ -44,10 +47,7 @@ public class Login {
     }
 
 
-    Scanner s = new Scanner(System.in);
-    //Eva: String filename = "C://Daten//SWP-Projekt//Register.txt";
-    //Julia:
-    String filename = "C://Users//biech//Desktop//3bhwii_Java//3bhw_Projekt_Biechl_Bobchev//User.txt";
+
 
 
     public void createAccount() {
@@ -181,17 +181,17 @@ public class Login {
         }
     }
     public void teacheraddsubjecttoteacher() throws SQLException{
-        String teachername;
-        Subject newsubject;
-        System.out.println("Which teacher do you want to add a subject: ");
-        teachername = reader.nextLine();
-        if (teachername != null ) {
-            System.out.println("Subject to add: ");
-            newsubject = inputsubject();
-            if (rep.addSubject(newsubject)) {
+        int teachername;
+        int subject;
+        System.out.println("Which teacher do you want to add a subject: [id only]");
+        teachername = reader.nextInt();
+        if (teachername >= 0 ) {
+            System.out.println("Which subject do you want to add: [id only]");
+            subject = reader.nextInt();
+            if (rep.addSubjectToTeacherWhereID(subject, teachername) == true) {
                 System.out.println("Subject has been added!");
             }
-            System.out.println(newsubject);
+            System.out.println(subject);
         }
         else {
             System.out.println("There has been a mistake adding a new subject!");
