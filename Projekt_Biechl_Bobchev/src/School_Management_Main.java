@@ -1,8 +1,10 @@
 import Models.*;
 import Models.DB.*;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -28,6 +30,8 @@ public class School_Management_Main {
         this.setpassword(password);
     }
 
+    static School_Management_Main sm = new School_Management_Main();
+
     //Scanner für KLassen
     static Scanner reader = new Scanner(System.in);
     //Für Filemanagment
@@ -40,19 +44,28 @@ public class School_Management_Main {
     static IRepository_School repo;
 
     static List<Student> foundStudent = new ArrayList<Student>();
+    static List<Teacher> foundTeacher = new ArrayList<>();
 
-    public static void main(String[] args) {
+    public static int teacherchoice;
+    public static int studentchoice;
+
+    public static void main(String[] args) throws IOException {
         IRepository_School rep = null;
 
+        System.out.println(Files.readAllLines(Paths.get(filename)));
         try {
             rep = new Repository_School();
             rep.open();
             userAccount();
             if (loginAccount() == "teacher"){
-                teacherfunction();
+                do {
+                    teacherfunction();
+                }while (teacherchoice > 10 && teacherchoice > 0);
             }
             else if (loginAccount() == "student"){
-                studentfunction();
+                do {
+                    studentfunction();
+                }while (studentchoice < 4 && studentchoice >0);
             }
             else {
                 System.out.println("Closing Programm");
@@ -94,20 +107,11 @@ public class School_Management_Main {
         try {
             Path p = Path.of(filename);
 
-            System.out.print("Enter Username:");
+            System.out.print("Enter Username: ");
             username = s.nextLine();
-            String newusername;
-            System.out.println(username);
-            newusername = username;
-            System.out.println(newusername);
-            if (newusername.contains("teacher")){
-                newusername += ".te";
-                System.out.println(newusername);
-            }
-
-            System.out.print("Enter Password:");
+            System.out.print("Enter Password: ");
             password = s.nextLine();
-            Files.writeString(p, newusername + ";" + password + "\n", StandardOpenOption.APPEND);
+            Files.writeString(p, username + ";" + password + "\n", StandardOpenOption.APPEND);
             System.out.println("Account has been saved");
 
         } catch (Exception ex) {
@@ -117,16 +121,18 @@ public class School_Management_Main {
     public static String loginAccount() {
         try {
             Path p = Path.of(filename);
-            // 1) Datei mit userdaten lesen und In einer Hashmap abspeichern
-            System.out.print("Enter Username:");
+
+            System.out.print("Enter Username: ");
             String username = s.nextLine();
-            System.out.print("Enter Password:");
+            System.out.print("Enter Password: ");
             String password = s.nextLine();
             convertStringListTologinHashmap(Files.readAllLines(p));
             if (userAndPasswordOk(username,password) == "teacher"){
+                System.out.println("enterd Teacher if");
                 return "teacher";
             }
             else if (userAndPasswordOk(username,password) == "student"){
+                System.out.println("enterd Student if");
                 return "student";
             }
         } catch (Exception ex) {
@@ -142,22 +148,17 @@ public class School_Management_Main {
             hashmapUser.put(data[0],data[1]);
         }
     }
-    public static String userAndPasswordOk(String username, String password) throws SQLException, ClassNotFoundException {
-        String newusername;
-        if (username.contains(".te")){
-            newusername = username;
-        }
-        else{
-            newusername = null;
-        }
+    public static String userAndPasswordOk(String username, String password) throws SQLException {
+
         for (Map.Entry<String, String> entry : hashmapUser.entrySet()) {
-            if (entry.getKey().toLowerCase().equals(newusername.toLowerCase()) && entry.getValue().equals(password)){
-                System.out.println("Hello teacher");
-                teacherfunction();
-                return "teacher";
+            if (username.endsWith(".te") == true){
+                if (entry.getKey().toLowerCase().equals(username.toLowerCase()) && entry.getValue().equals(password)){
+                    System.out.println("Hello teacher");
+                    return "teacher";
+                }
             }
 
-            if (entry.getKey().toLowerCase().equals(username.toLowerCase()) && entry.getValue().equals(password)) {
+            else if (entry.getKey().toLowerCase().equals(username.toLowerCase()) && entry.getValue().equals(password)) {
                 System.out.println("Hello student");
                 studentfunction();
                 return "student";
@@ -169,11 +170,12 @@ public class School_Management_Main {
     private static void studentfunction() throws SQLException {
         Scanner s = new Scanner(System.in);
         System.out.println("What do you want to do?");
-        System.out.println("1) View student account by firstname");
-        System.out.println("2) View student by class");
-        System.out.println("3) View student account by lastname");
+        System.out.println("1) Search student by firstname");
+        System.out.println("2) Search student by class");
+        System.out.println("3) Search student by lastname");
+        System.out.println("4) Close Programm");
         System.out.println("Enter choice:");
-        int studentchoice = s.nextInt();
+        studentchoice = s.nextInt();
 
         switch (studentchoice){
             case 1:
@@ -196,8 +198,14 @@ public class School_Management_Main {
         System.out.println("2) Create a teachers account");
         System.out.println("3) Create a subject");
         System.out.println("4) Add subject to teacher");
+        System.out.println("5) Search for student by Firstname");
+        System.out.println("6) Search for student by Lastname");
+        System.out.println("7) Search for student by Class");
+        System.out.println("8) Get all teachers in a list");
+        System.out.println("9) Get all subjects in a list");
+        System.out.println("10) Close Program");
         System.out.println("Enter choice:");
-        int teacherchoice = t.nextInt();
+        teacherchoice = t.nextInt();
 
         switch (teacherchoice){
             case 1:
@@ -211,6 +219,21 @@ public class School_Management_Main {
                 break;
             case 4:
                 teacheraddsubjecttoteacher();
+                break;
+            case 5:
+                studentviewstudentbyfirstname();
+                break;
+            case 6:
+                studentviewstudenbylastname();
+                break;
+            case 7:
+                studentviewbyclass();
+                break;
+            case 8:
+                allteachers();
+                break;
+            case 9:
+                allsubjects();
                 break;
             default:
                 System.out.println("Your choice is not available");
@@ -258,6 +281,18 @@ public class School_Management_Main {
         else {
             System.out.println("There has been a mistake adding a new subject!");
         }
+    }
+    public static void allteachers() throws SQLException {
+        for (Teacher c : repo.getAllTeachers()){
+            System.out.println(c);
+        }
+
+    }
+    public static void allsubjects() throws SQLException {
+        for (Subject c : repo.getAllSubjects()){
+            System.out.println(c);
+        }
+
     }
 
 
@@ -322,7 +357,7 @@ public class School_Management_Main {
         System.out.println("Birthdate-day:");
         day = reader.nextInt();
         t.setBirthdate(LocalDate.of(year,month,day));
-        System.out.println("Gender: Female/Male");
+        System.out.println("Gender: Female = 2/Male = 1");
         t.setGender(convertIntToGender(reader.nextInt()));
         System.out.println("Email:");
         t.setMailaddress(reader.nextLine());
