@@ -20,6 +20,15 @@ public interface IRepository_School {
 
     List<Teacher> getAllTeachers() throws SQLException;
 
+    List<Student> getStudentbyfirstname(String firstname) throws SQLException;
+
+    List<Student> getStudentbyclassroom(String classroom) throws SQLException;
+
+    List<Student> getStudentbylastname(String lastname) throws SQLException;
+
+
+
+
     List<Subject> getAllSubjects() throws SQLException;
 
     boolean getTeacherId(Teacher teacher) throws SQLException;

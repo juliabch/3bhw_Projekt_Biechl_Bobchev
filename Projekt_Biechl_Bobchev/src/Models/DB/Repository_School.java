@@ -106,6 +106,33 @@ public class Repository_School implements IRepository_School{
     }
 
     @Override
+<<<<<<< HEAD
+    public List<Student> getStudentbyfirstname(String firstname) throws SQLException {
+        List<Student> foundStudent = new ArrayList<>();
+        PreparedStatement pStmt = this._connection.prepareStatement("select * from student where firstname LIKE firstname = ?");
+
+        pStmt.setString(1, firstname);
+
+        ResultSet result = pStmt.executeQuery();
+
+        Student s = new Student();
+
+        while (result.next()) {
+            s = new Student();
+            s.setFirstname(result.getString("firstname"));
+            s.setLastname(result.getString("lastname"));
+            s.setBirthdate(result.getDate("birthdate").toLocalDate());
+            s.setGender(convertIntToGender(result.getInt("gender")));
+            s.setClassroom(result.getString("classroom"));
+            s.setStudentClass(result.getString("studentclass"));
+            s.setMailaddress(result.getString("mail_Address"));
+
+            foundStudent.add(s);
+        }
+        if (foundStudent.size() >= 1) {
+            return foundStudent;
+        } else {
+=======
     public List<Teacher> getAllTeachers() throws SQLException {
         List<Teacher> foundTeacher = new ArrayList<Teacher>();
         PreparedStatement pStmt = this._connection.prepareStatement("select * from teacher;");
@@ -129,6 +156,70 @@ public class Repository_School implements IRepository_School{
             return foundTeacher;
         }
         else {
+>>>>>>> 947c28bab83aa928d53e1471277110bf9cf4e97c
+            return null;
+        }
+    }
+
+<<<<<<< HEAD
+    @Override
+    public List<Student> getStudentbyclassroom(String classroom) throws SQLException {
+            List<Student> foundStudent = new ArrayList<>();
+            PreparedStatement pStmt = this._connection.prepareStatement("select * from student where classroom LIKE classroom = ?");
+
+            pStmt.setString(1, classroom);
+
+            ResultSet result = pStmt.executeQuery();
+
+            Student s = new Student();
+
+            while (result.next()){
+                s = new Student();
+                s.setFirstname(result.getString("firstname"));
+                s.setLastname(result.getString("lastname"));
+                s.setBirthdate(result.getDate("birthdate").toLocalDate());
+                s.setGender(convertIntToGender(result.getInt("gender")));
+                s.setClassroom(result.getString("classroom"));
+                s.setStudentClass(result.getString("studentclass"));
+                s.setMailaddress(result.getString("mail_Address"));
+
+                foundStudent.add(s);
+            }
+            if (foundStudent.size() >= 1){
+                return foundStudent;
+            }
+            else{
+                return null;
+            }
+
+    }
+
+    @Override
+    public List<Student> getStudentbylastname(String lastname) throws SQLException {
+        List<Student> foundStudent = new ArrayList<>();
+        PreparedStatement pStmt = this._connection.prepareStatement("select * from student where lastname LIKE lastname = ?");
+
+        pStmt.setString(1, lastname);
+
+        ResultSet result = pStmt.executeQuery();
+
+        Student s = new Student();
+
+        while (result.next()) {
+            s = new Student();
+            s.setFirstname(result.getString("firstname"));
+            s.setLastname(result.getString("lastname"));
+            s.setBirthdate(result.getDate("birthdate").toLocalDate());
+            s.setGender(convertIntToGender(result.getInt("gender")));
+            s.setClassroom(result.getString("classroom"));
+            s.setStudentClass(result.getString("studentclass"));
+            s.setMailaddress(result.getString("mail_Address"));
+
+            foundStudent.add(s);
+        }
+        if (foundStudent.size() >= 1) {
+            return foundStudent;
+        } else {
             return null;
         }
     }
@@ -192,6 +283,22 @@ public class Repository_School implements IRepository_School{
         }
     }
 
+
+
+
+    private Gender convertIntToGender(int valueFromDB){
+        if(valueFromDB == 0){
+            return Gender.male;
+        }
+        else if(valueFromDB == 1 ){
+            return Gender.female;
+        }
+        else{
+            return Gender.notSpecified;
+        }
+    }
+
+=======
     public Gender intToGender(int gender){
         switch (gender) {
             case 1:
