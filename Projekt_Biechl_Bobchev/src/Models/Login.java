@@ -27,7 +27,10 @@ public class Login {
 
 
     Scanner s = new Scanner(System.in);
-    String filename = "C://Daten//SWP-Projekt//Register.txt";
+    //Eva: String filename = "C://Daten//SWP-Projekt//Register.txt";
+    //Julia:
+    String filename = "C://Users//biech//Desktop//3bhwii_Java//3bhw_Projekt_Biechl_Bobchev//User.txt";
+
 
     public void createAccount() {
         try {

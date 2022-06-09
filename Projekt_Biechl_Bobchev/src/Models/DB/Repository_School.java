@@ -38,7 +38,7 @@ public class Repository_School implements IRepository_School{
 
     @Override
     public boolean createTeacher(Teacher teacher) throws SQLException {
-        PreparedStatement pStmt =this._connection.prepareStatement("insert into teacher values(null, ?, ?, ?, ?, ?, ?);");
+        PreparedStatement pStmt = this._connection.prepareStatement("insert into teacher values(null, ?, ?, ?, ?, ?, ?);");
 
         pStmt.setString(1, teacher.getLastname());
         pStmt.setString(2, teacher.getFirstname());
@@ -47,7 +47,17 @@ public class Repository_School implements IRepository_School{
         pStmt.setString(5, teacher.getMailAddress());
         pStmt.setString(6, teacher.getIsFormTeacher());
 
-        return pStmt.executeUpdate() == 1;
+        boolean insertOk = pStmt.executeUpdate() == 1;
+
+        boolean idOK = false;
+
+        if(insertOk == true){
+            if(getTeacherId(teacher)){
+                idOK = true;
+            }
+        }
+
+        return idOK;
     }
 
     @Override
@@ -71,35 +81,46 @@ public class Repository_School implements IRepository_School{
 
         pStmt.setString(1, subject.getSubject());
 
-        return pStmt.executeUpdate() == 1;
+        boolean insertOk = pStmt.executeUpdate() == 1;
+
+        boolean idOK = false;
+
+        if(insertOk == true){
+            if(getSubjectId(subject)){
+                idOK = true;
+            }
+        }
+
+        return idOK;
     }
 
     @Override
-    public boolean addSubjectToTeacherWhereID(Subject subject, int teacher) throws SQLException {
-        return false;
+    public boolean addSubjectToTeacherWhereID(Subject subject, Teacher teacher) throws SQLException {
+
+        PreparedStatement pStmt =this._connection.prepareStatement("insert into teacher_subjects values(null, ?, ?);");
+
+        pStmt.setInt(1, subject.getSubjectId());
+        pStmt.setInt(2, teacher.getId());
+
+        return pStmt.executeUpdate() == 1;
     }
 
     @Override
     public List<Teacher> getAllTeachers() throws SQLException {
         List<Teacher> foundTeacher = new ArrayList<Teacher>();
-        PreparedStatement pStmt = this._connection.prepareStatement("select teacherId, l_name, f_name, bdate, gender, formTeacher, subject_name from teacher\n" +
-                "join teacher_subjects on teacher_Id\n" +
-                "join subjects on subject_id;");
+        PreparedStatement pStmt = this._connection.prepareStatement("select * from teacher;");
 
         ResultSet result = pStmt.executeQuery();
 
         Teacher t;
-        Subject s;
         while (result.next()){
             t = new Teacher();
-            s = new Subject();
             t.setId(result.getInt("teacherId"));
             t.setLastname(result.getString("l_name"));
             t.setFirstname(result.getString("f_name"));
             t.setBirthdate(result.getDate("bdate").toLocalDate());
             t.setGender(intToGender(result.getInt("gender")));
             t.setIsFormTeacher(result.getString("formTeacher"));
-            s.setSubject(result.getString("subject_name"));
 
             foundTeacher.add(t);
         }
@@ -109,6 +130,65 @@ public class Repository_School implements IRepository_School{
         }
         else {
             return null;
+        }
+    }
+
+    @Override
+    public List<Subject> getAllSubjects() throws SQLException {
+        List<Subject> foundSubject = new ArrayList<Subject>();
+        PreparedStatement pStmt = this._connection.prepareStatement("select * from subjects;");
+
+        ResultSet result = pStmt.executeQuery();
+
+        Subject s;
+        while (result.next()){
+            s = new Subject();
+            s.setSubjectId(result.getInt("subjectId"));
+            s.setSubject(result.getString("subject_name"));
+
+            foundSubject.add(s);
+        }
+
+        if (foundSubject.size() >= 1){
+            return foundSubject;
+        }
+        else {
+            return null;
+        }
+    }
+
+    @Override
+    public boolean getTeacherId(Teacher teacher1) throws SQLException {
+        PreparedStatement pStmt =this._connection.prepareStatement("select teacherId from teacher where l_name like ? " +
+                "and f_name like ? and mailAddress like ?;");
+        pStmt.setString(1, teacher1.getLastname());
+        pStmt.setString(2, teacher1.getFirstname());
+        pStmt.setString(3, teacher1.getMailAddress());
+
+        ResultSet result = pStmt.executeQuery();
+
+        if (result.next()) {
+            teacher1.setId(result.getInt("teacherId"));
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    @Override
+    public boolean getSubjectId(Subject subject) throws SQLException {
+        PreparedStatement pStmt =this._connection.prepareStatement("select subjectId from subjects where subject_name like ?");
+        pStmt.setString(1, subject.getSubject());
+
+        ResultSet result = pStmt.executeQuery();
+
+        if (result.next()) {
+            subject.setSubjectId(result.getInt("subjectId"));
+            return true;
+        }
+        else{
+            return false;
         }
     }
 
@@ -122,4 +202,6 @@ public class Repository_School implements IRepository_School{
                 return Gender.notSpecified;
         }
     }
+
+
 }

@@ -46,6 +46,13 @@ constraint teacherId_FK foreign key(teacher_Id) references teacher(teacherId)
 
 
 select * from subjects;
+drop table subjects;
 select * from student;
 select * from teacher;
 select * from teacher_subjects;
+
+select teacherId, l_name, f_name, bdate, gender, formTeacher, subject_name from teacher
+join teacher_subjects on teacher_Id
+join subjects on subject_id;
+
+insert into teacher_subjects values(null, 1, 1);

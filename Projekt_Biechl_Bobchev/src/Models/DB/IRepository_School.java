@@ -16,8 +16,14 @@ public interface IRepository_School {
 
     boolean createSubject(Subject subject) throws SQLException;
 
-    boolean addSubjectToTeacherWhereID(Subject subject, int teacher) throws SQLException;
+    boolean addSubjectToTeacherWhereID(Subject subject, Teacher teacher) throws SQLException;
 
     List<Teacher> getAllTeachers() throws SQLException;
+
+    List<Subject> getAllSubjects() throws SQLException;
+
+    boolean getTeacherId(Teacher teacher) throws SQLException;
+
+    boolean getSubjectId(Subject subject) throws SQLException;
 
 }
