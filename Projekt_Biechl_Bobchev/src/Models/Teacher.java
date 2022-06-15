@@ -7,7 +7,7 @@ public class Teacher extends Person{
 
 
     private String _isFormTeacher;
-    private List<Subject> _subjects = new ArrayList<>();
+    private String _subjects;
 
     public String getIsFormTeacher() {
         return _isFormTeacher;
@@ -26,19 +26,12 @@ public class Teacher extends Person{
 
     }
 
-    public boolean addSubject(Subject subject){
-        if(subject != null){
-            return this._subjects.add(subject);
-        }
-        return false;
+    public String getSubjects() {
+        return _subjects;
     }
-    public boolean removeSubject(int subjectToDelete){
-        for(Subject s : this._subjects){
-            if(s.getSubjectId() == subjectToDelete){
-                this._subjects.remove(s);
-            }
-        }
-        return false;
+
+    public void setSubjects(String _subjects) {
+        this._subjects = _subjects;
     }
 
     @Override

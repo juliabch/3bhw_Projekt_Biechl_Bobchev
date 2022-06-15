@@ -1,6 +1,8 @@
 import Models.*;
 import Models.DB.*;
+import org.w3c.dom.ls.LSOutput;
 
+import javax.crypto.spec.PSource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -62,27 +64,13 @@ public class School_Management_Main {
                     System.out.println("Hello teacher!");
                     do {
                         teacherfunction();
-                    }while (teacherchoice > 10 && teacherchoice > 0);
+                    }while (teacherchoice < 11 && teacherchoice > 0);
                 }
                 else if (loginAccount() == "student"){
                     System.out.println("Hello student!");
                     do {
                         studentfunction();
-                        switch (studentchoice){
-                            case 1:
-                                studentviewstudentbyfirstname();
-                                break;
-                            case 2:
-                                studentviewbyclass();
-                                break;
-                            case 3:
-                                studentviewstudenbylastname();
-                            case 4:
-                                System.out.println("Closing program");
-                            default:
-                                System.out.println("Your choice is not available");
-                                break;
-                        }
+
                     }while (studentchoice < 4 && studentchoice >0);
                 }
                 else {
@@ -182,17 +170,32 @@ public class School_Management_Main {
 
     private static void studentfunction() throws SQLException {
         Scanner s = new Scanner(System.in);
-        System.out.println("What do you want to do?");
+        System.out.println("\n\n\nWhat do you want to do?");
         System.out.println("1) Search student by firstname");
         System.out.println("2) Search student by class");
         System.out.println("3) Search student by lastname");
         System.out.println("4) Close Programm");
         System.out.println("Enter choice:");
         studentchoice = s.nextInt();
+        switch (studentchoice){
+            case 1:
+                studentviewstudentbyfirstname();
+                break;
+            case 2:
+                studentviewbyclass();
+                break;
+            case 3:
+                studentviewstudenbylastname();
+            case 4:
+                System.out.println("Closing program");
+            default:
+                System.out.println("Your choice is not available");
+                break;
+        }
     }
     public static void teacherfunction() throws SQLException, ClassNotFoundException {
         Scanner t = new Scanner(System.in);
-        System.out.println("What do you want to do?");
+        System.out.println("\n\n\nWhat do you want to do?");
         System.out.println("1) Create a student account");
         System.out.println("2) Create a teachers account");
         System.out.println("3) Create a subject");
@@ -202,7 +205,8 @@ public class School_Management_Main {
         System.out.println("7) Search for student by Class");
         System.out.println("8) Get all teachers in a list");
         System.out.println("9) Get all subjects in a list");
-        System.out.println("10) Close Program");
+        System.out.println("10) Get Teacher with Subjects");
+        System.out.println("11) Close Program");
         System.out.println("Enter choice:");
         teacherchoice = t.nextInt();
 
@@ -233,6 +237,11 @@ public class School_Management_Main {
                 break;
             case 9:
                 allsubjects();
+                break;
+            case 10:
+                 teachersSubject();
+            case 11:
+                System.out.println("Closing Program");
                 break;
             default:
                 System.out.println("Your choice is not available");
@@ -298,12 +307,22 @@ public class School_Management_Main {
     public static List<Subject> allsubjects() throws SQLException {
         List<Subject> foundSubject = new ArrayList<>();
         foundSubject = repo.getAllSubjects();
-        for (Teacher c : foundTeacher){
-            System.out.println(c);
+        for (Subject s : foundSubject){
+            System.out.println(s);
         }
+
         return foundSubject;
     }
-
+    public static void teachersSubject() throws SQLException{
+        List<Teacher> teachersFound = new ArrayList<>();
+                teachersFound = repo.getTeacherSubjects();
+        if (teachersFound != null){
+            System.out.println(teachersFound);
+        }
+        else {
+            System.out.println("There is no classroom!");
+        }
+    }
 
     public static void studentviewbyclass() throws SQLException {
         String csearch;

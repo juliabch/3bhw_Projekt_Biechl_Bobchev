@@ -161,7 +161,31 @@ public class Repository_School implements IRepository_School{
                 }
             }
 
-            @Override
+    @Override
+    public List<Teacher> getTeacherSubjects() throws SQLException {
+        List<Teacher> foundTeacher = new ArrayList<Teacher>();
+        PreparedStatement pStmt = this._connection.prepareStatement("call SubjectTeacher();");
+
+        ResultSet result = pStmt.executeQuery();
+
+        Teacher t;
+        while (result.next()) {
+            t = new Teacher();
+            t.setLastname(result.getString("l_name"));
+            t.setFirstname(result.getString("f_name"));
+            t.setSubjects(result.getString("subject_name"));
+
+            foundTeacher.add(t);
+        }
+
+        if (foundTeacher.size() >= 1) {
+            return foundTeacher;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
             public List<Student> getStudentbyclassroom (String classroom) throws SQLException {
                 List<Student> foundStudent = new ArrayList<>();
                 PreparedStatement pStmt = this._connection.prepareStatement("select * from student where classRoom = ?");
