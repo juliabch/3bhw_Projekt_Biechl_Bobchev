@@ -1,2 +1,0 @@
-julia.te;abcd
-eva;abcd
