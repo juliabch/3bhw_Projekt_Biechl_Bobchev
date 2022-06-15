@@ -70,8 +70,8 @@ public abstract class Person {
 
     @Override
     public String toString(){
-        return this._id + " Name: " + this._firstname + " " + this._lastname + "\nGeburtsdatum: " +
-                this._birthdate + " Email-Adresse: " + this._mailAddress + "\nGeschlecht: " +
+        return this._id + " Name: " + this._firstname + " " + this._lastname + "\nBirthdate: " +
+                this._birthdate + " E-mailaddress: " + this._mailAddress + "\nGender: " +
                 this._gender;
     }
 

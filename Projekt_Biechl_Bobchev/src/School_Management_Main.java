@@ -56,20 +56,46 @@ public class School_Management_Main {
         try {
             rep = new Repository_School();
             rep.open();
-            userAccount();
-            if (loginAccount() == "teacher"){
-                do {
-                    teacherfunction();
-                }while (teacherchoice > 10 && teacherchoice > 0);
+
+            if (userAccount() == 2){
+                if (loginAccount() == "teacher"){
+                    System.out.println("Hello teacher!");
+                    do {
+                        teacherfunction();
+                    }while (teacherchoice > 10 && teacherchoice > 0);
+                }
+                else if (loginAccount() == "student"){
+                    System.out.println("Hello student!");
+                    do {
+                        studentfunction();
+                        switch (studentchoice){
+                            case 1:
+                                studentviewstudentbyfirstname();
+                                break;
+                            case 2:
+                                studentviewbyclass();
+                                break;
+                            case 3:
+                                studentviewstudenbylastname();
+                            case 4:
+                                System.out.println("Closing program");
+                            default:
+                                System.out.println("Your choice is not available");
+                                break;
+                        }
+                    }while (studentchoice < 4 && studentchoice >0);
+                }
+                else {
+                    System.out.println("Closing Programm");
+                }
             }
-            else if (loginAccount() == "student"){
-                do {
-                    studentfunction();
-                }while (studentchoice < 4 && studentchoice >0);
+            else if(userAccount() == 1){
+                createAccount();
             }
             else {
-                System.out.println("Closing Programm");
+                System.out.println("This option is not available right now!");
             }
+
 
 
 
@@ -81,32 +107,23 @@ public class School_Management_Main {
 
     }
 
-    public static void userAccount() {
-        School_Management_Main newAccount = new School_Management_Main();
-        try {
+    public static int userAccount() {
+        int choice;
             System.out.println("________________________");
             System.out.println("1) Create User-Account");
             System.out.println("2) Login User-Account");
             System.out.println("________________________");
             System.out.println("Enter choice:");
-            String choice = s.nextLine();
-            if (choice.equals("1")) {
-                newAccount.createAccount();
-            } else if (choice.equals("2")) {
-                newAccount.loginAccount();
-            } else {
-                System.out.println("This option is not available right now!");
-            }
-        } catch (Exception ex) {
-        }
+            choice = s.nextInt();
 
+        return choice;
     }
     public static void createAccount() {
         String username;
         String password;
         try {
             Path p = Path.of(filename);
-
+            String space = s.nextLine();
             System.out.print("Enter Username: ");
             username = s.nextLine();
             System.out.print("Enter Password: ");
@@ -122,17 +139,16 @@ public class School_Management_Main {
         try {
             Path p = Path.of(filename);
 
+            String space = s.nextLine();
             System.out.print("Enter Username: ");
             String username = s.nextLine();
             System.out.print("Enter Password: ");
             String password = s.nextLine();
             convertStringListTologinHashmap(Files.readAllLines(p));
             if (userAndPasswordOk(username,password) == "teacher"){
-                System.out.println("enterd Teacher if");
                 return "teacher";
             }
             else if (userAndPasswordOk(username,password) == "student"){
-                System.out.println("enterd Student if");
                 return "student";
             }
         } catch (Exception ex) {
@@ -153,14 +169,11 @@ public class School_Management_Main {
         for (Map.Entry<String, String> entry : hashmapUser.entrySet()) {
             if (username.endsWith(".te") == true){
                 if (entry.getKey().toLowerCase().equals(username.toLowerCase()) && entry.getValue().equals(password)){
-                    System.out.println("Hello teacher");
                     return "teacher";
                 }
             }
 
             else if (entry.getKey().toLowerCase().equals(username.toLowerCase()) && entry.getValue().equals(password)) {
-                System.out.println("Hello student");
-                studentfunction();
                 return "student";
             }
         }
@@ -176,20 +189,6 @@ public class School_Management_Main {
         System.out.println("4) Close Programm");
         System.out.println("Enter choice:");
         studentchoice = s.nextInt();
-
-        switch (studentchoice){
-            case 1:
-                studentviewstudentbyfirstname();
-                break;
-            case 2:
-                studentviewbyclass();
-                break;
-            case 3:
-                studentviewstudenbylastname();
-            default:
-                System.out.println("Your choice is not available");
-                break;
-        }
     }
     public static void teacherfunction() throws SQLException, ClassNotFoundException {
         Scanner t = new Scanner(System.in);
@@ -345,7 +344,7 @@ public class School_Management_Main {
 
         Teacher t = new Teacher();
         System.out.println("Lastname:");
-        t.setId(reader.nextInt());
+        t.setLastname(reader.nextLine());
         System.out.println("Firstname:");
         t.setFirstname(reader.nextLine());
         System.out.println("Birthdate:");
@@ -359,6 +358,7 @@ public class School_Management_Main {
         t.setBirthdate(LocalDate.of(year,month,day));
         System.out.println("Gender: Female = 2/Male = 1");
         t.setGender(convertIntToGender(reader.nextInt()));
+        String space = reader.nextLine();
         System.out.println("Email:");
         t.setMailaddress(reader.nextLine());
         System.out.println("Form teacher of:");
@@ -369,8 +369,6 @@ public class School_Management_Main {
     }
     public static Student inputstudent(){
         Student st = new Student();
-
-
 
         System.out.println("Firstname:");
         st.setFirstname(reader.nextLine());
@@ -387,6 +385,7 @@ public class School_Management_Main {
         st.setBirthdate(LocalDate.of(year,month,day));
         System.out.println("Gender: Female/Male");
         st.setGender(convertIntToGender(reader.nextInt()));
+        String space = reader.nextLine();
         System.out.println("Email:");
         st.setMailaddress(reader.nextLine());
         System.out.println("Classroom:");
@@ -395,7 +394,6 @@ public class School_Management_Main {
         st.setStudentClass(reader.nextLine());
 
         return st;
-
     }
     public static Subject inputsubject(){
         Subject s = new Subject();

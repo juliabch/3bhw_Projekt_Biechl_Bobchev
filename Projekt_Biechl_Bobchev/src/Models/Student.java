@@ -37,7 +37,7 @@ public class Student extends Person {
 
     @Override
     public String toString(){
-        return super.toString() + "\nKlasse: " + this._studentClass + " Stammklasse: " + this._classroom;
+        return super.toString() + "\nClass: " + this._studentClass + " Classroom: " + this._classroom;
     }
 
 

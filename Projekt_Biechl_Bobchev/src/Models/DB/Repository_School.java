@@ -63,7 +63,7 @@ public class Repository_School implements IRepository_School{
 
     @Override
     public boolean createStudent(Student student) throws SQLException {
-        PreparedStatement pStmt =this._connection.prepareStatement("insert into student values(null, ?, ?, ?, ?, ?, ?, ?);");
+        PreparedStatement pStmt = this._connection.prepareStatement("insert into student value(null, ?, ?, ?, ?, ?, ?, ?);");
 
         pStmt.setString(1, student.getLastname());
         pStmt.setString(2, student.getFirstname());
