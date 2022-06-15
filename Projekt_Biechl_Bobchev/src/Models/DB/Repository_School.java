@@ -109,7 +109,7 @@ public class Repository_School implements IRepository_School{
     @Override
     public List<Student> getStudentbyfirstname(String firstname) throws SQLException {
         List<Student> foundStudent = new ArrayList<>();
-        PreparedStatement pStmt = this._connection.prepareStatement("select * from student where firstname LIKE firstname = ?");
+        PreparedStatement pStmt = this._connection.prepareStatement("select * from student where f_name = ?");
 
         pStmt.setString(1, firstname);
 
@@ -119,13 +119,13 @@ public class Repository_School implements IRepository_School{
 
         while (result.next()) {
             s = new Student();
-            s.setFirstname(result.getString("firstname"));
-            s.setLastname(result.getString("lastname"));
-            s.setBirthdate(result.getDate("birthdate").toLocalDate());
+            s.setFirstname(result.getString("f_name"));
+            s.setLastname(result.getString("l_name"));
+            s.setBirthdate(result.getDate("bdate").toLocalDate());
             s.setGender(convertIntToGender(result.getInt("gender")));
-            s.setClassroom(result.getString("classroom"));
-            s.setStudentClass(result.getString("studentclass"));
-            s.setMailaddress(result.getString("mail_Address"));
+            s.setClassroom(result.getString("classRoom"));
+            s.setStudentClass(result.getString("class"));
+            s.setMailaddress(result.getString("mailAddress"));
 
             foundStudent.add(s);
         }
@@ -164,7 +164,7 @@ public class Repository_School implements IRepository_School{
             @Override
             public List<Student> getStudentbyclassroom (String classroom) throws SQLException {
                 List<Student> foundStudent = new ArrayList<>();
-                PreparedStatement pStmt = this._connection.prepareStatement("select * from student where classroom LIKE classroom = ?");
+                PreparedStatement pStmt = this._connection.prepareStatement("select * from student where classRoom = ?");
 
                 pStmt.setString(1, classroom);
 
@@ -174,13 +174,13 @@ public class Repository_School implements IRepository_School{
 
                 while (result.next()) {
                     s = new Student();
-                    s.setFirstname(result.getString("firstname"));
-                    s.setLastname(result.getString("lastname"));
-                    s.setBirthdate(result.getDate("birthdate").toLocalDate());
+                    s.setFirstname(result.getString("f_name"));
+                    s.setLastname(result.getString("l_name"));
+                    s.setBirthdate(result.getDate("bdate").toLocalDate());
                     s.setGender(convertIntToGender(result.getInt("gender")));
-                    s.setClassroom(result.getString("classroom"));
-                    s.setStudentClass(result.getString("studentclass"));
-                    s.setMailaddress(result.getString("mail_Address"));
+                    s.setClassroom(result.getString("classRoom"));
+                    s.setStudentClass(result.getString("class"));
+                    s.setMailaddress(result.getString("mailAddress"));
 
                     foundStudent.add(s);
                 }
@@ -195,7 +195,7 @@ public class Repository_School implements IRepository_School{
             @Override
             public List<Student> getStudentbylastname (String lastname) throws SQLException {
                 List<Student> foundStudent = new ArrayList<>();
-                PreparedStatement pStmt = this._connection.prepareStatement("select * from student where lastname LIKE lastname = ?");
+                PreparedStatement pStmt = this._connection.prepareStatement("select * from student where l_name = ?");
 
                 pStmt.setString(1, lastname);
 
@@ -205,13 +205,13 @@ public class Repository_School implements IRepository_School{
 
                 while (result.next()) {
                     s = new Student();
-                    s.setFirstname(result.getString("firstname"));
-                    s.setLastname(result.getString("lastname"));
-                    s.setBirthdate(result.getDate("birthdate").toLocalDate());
+                    s.setFirstname(result.getString("f_name"));
+                    s.setLastname(result.getString("l_name"));
+                    s.setBirthdate(result.getDate("bdate").toLocalDate());
                     s.setGender(convertIntToGender(result.getInt("gender")));
-                    s.setClassroom(result.getString("classroom"));
-                    s.setStudentClass(result.getString("studentclass"));
-                    s.setMailaddress(result.getString("mail_Address"));
+                    s.setClassroom(result.getString("classRoom"));
+                    s.setStudentClass(result.getString("class"));
+                    s.setMailaddress(result.getString("mailAddress"));
 
                     foundStudent.add(s);
                 }
@@ -247,7 +247,7 @@ public class Repository_School implements IRepository_School{
 
             @Override
             public boolean getTeacherId (Teacher teacher1) throws SQLException {
-                PreparedStatement pStmt = this._connection.prepareStatement("select teacherId from teacher where l_name like ? " +
+                PreparedStatement pStmt = this._connection.prepareStatement("select teacherId from teacher where l_name = ? " +
                         "and f_name like ? and mailAddress like ?;");
                 pStmt.setString(1, teacher1.getLastname());
                 pStmt.setString(2, teacher1.getFirstname());
@@ -265,7 +265,7 @@ public class Repository_School implements IRepository_School{
 
             @Override
             public boolean getSubjectId (Subject subject) throws SQLException {
-                PreparedStatement pStmt = this._connection.prepareStatement("select subjectId from subjects where subject_name like ?");
+                PreparedStatement pStmt = this._connection.prepareStatement("select subjectId from subjects where subject_name = ?");
                 pStmt.setString(1, subject.getSubject());
 
                 ResultSet result = pStmt.executeQuery();

@@ -41,7 +41,7 @@ public class School_Management_Main {
     //Julia:
     static String filename = "C://Users//biech//Desktop//3bhwii_Java//3bhw_Projekt_Biechl_Bobchev//User.txt";
 
-    static IRepository_School repo;
+    static IRepository_School repo = null;
 
     static List<Student> foundStudent = new ArrayList<Student>();
     static List<Teacher> foundTeacher = new ArrayList<>();
@@ -50,12 +50,12 @@ public class School_Management_Main {
     public static int studentchoice;
 
     public static void main(String[] args) throws IOException {
-        IRepository_School rep = null;
+
 
         System.out.println(Files.readAllLines(Paths.get(filename)));
         try {
-            rep = new Repository_School();
-            rep.open();
+            repo = new Repository_School();
+            repo.open();
 
             if (userAccount() == 2){
                 if (loginAccount() == "teacher"){
@@ -270,28 +270,38 @@ public class School_Management_Main {
         System.out.println("Which teacher do you want to add a subject: [id only]");
         teachername = reader.nextInt();
         if (teachername >= 0 ) {
+            List<Subject> subjects = new ArrayList<>();
+            subjects = allsubjects();
+            System.out.println("Id starts with 1:");
+            for (Subject s : subjects){
+
+                System.out.println(s);
+            }
             System.out.println("Which subject do you want to add: [id only]");
             subject = reader.nextInt();
             if (repo.addSubjectToTeacherWhereID(subject, teachername) == true) {
                 System.out.println("Subject has been added!");
             }
-            System.out.println(subject);
         }
         else {
             System.out.println("There has been a mistake adding a new subject!");
         }
     }
-    public static void allteachers() throws SQLException {
-        for (Teacher c : repo.getAllTeachers()){
+    public static List<Teacher> allteachers() throws SQLException {
+        List<Teacher> foundTeacher = new ArrayList<>();
+        foundTeacher = repo.getAllTeachers();
+        for (Teacher c : foundTeacher){
             System.out.println(c);
         }
-
+        return foundTeacher;
     }
-    public static void allsubjects() throws SQLException {
-        for (Subject c : repo.getAllSubjects()){
+    public static List<Subject> allsubjects() throws SQLException {
+        List<Subject> foundSubject = new ArrayList<>();
+        foundSubject = repo.getAllSubjects();
+        for (Teacher c : foundTeacher){
             System.out.println(c);
         }
-
+        return foundSubject;
     }
 
 
@@ -328,6 +338,7 @@ public class School_Management_Main {
         System.out.println("Studentname to search: ");
         fnToSearch = reader.next();
 
+
         foundStudent = repo.getStudentbyfirstname(fnToSearch);
         if (foundStudent != null){
             System.out.println(foundStudent);
@@ -356,7 +367,7 @@ public class School_Management_Main {
         System.out.println("Birthdate-day:");
         day = reader.nextInt();
         t.setBirthdate(LocalDate.of(year,month,day));
-        System.out.println("Gender: Female = 2/Male = 1");
+        System.out.println("Gender: Female = 1/Male = 0");
         t.setGender(convertIntToGender(reader.nextInt()));
         String space = reader.nextLine();
         System.out.println("Email:");
@@ -383,7 +394,7 @@ public class School_Management_Main {
         System.out.println("Birthdate-day:");
         day = reader.nextInt();
         st.setBirthdate(LocalDate.of(year,month,day));
-        System.out.println("Gender: Female/Male");
+        System.out.println("Gender: Female = 1/Male = 0");
         st.setGender(convertIntToGender(reader.nextInt()));
         String space = reader.nextLine();
         System.out.println("Email:");

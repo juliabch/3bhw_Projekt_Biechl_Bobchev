@@ -35,4 +35,5 @@ public interface IRepository_School {
 
     boolean getSubjectId(Subject subject) throws SQLException;
 
+
 }
